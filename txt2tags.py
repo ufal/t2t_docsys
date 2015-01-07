@@ -4376,7 +4376,7 @@ def toc_formatter(toc, config):
 		if rules['autotocwithbars']:	       # TOC between bars
 			para = TAGS['paragraphOpen']+TAGS['paragraphClose']
 			bar  = regex['x'].sub('-' * DFT_TEXT_WIDTH, TAGS['bar1'])
-			tocbar = [para, bar, para]
+			tocbar = [para, bar, para] if config['target'] != 'txt' else [bar]
 			if config['target'] == 'art' and config['headers']:
 				# exception: header already printed a bar
 				ret = [para] + ret + tocbar
@@ -4891,6 +4891,8 @@ def convert_this_files(configs):
 		first_body_line = (len(source_head) or 1)+ len(source_conf) + 1
 		Message(_("Composing target Body"),1)
 		target_body, marked_toc = convert(source_body, myconf, firstlinenr=first_body_line)
+		while len(target_body) and not target_body[0].strip(): target_body.pop(0)
+		while len(target_body) and not target_body[-1].strip(): target_body.pop()
 		# If dump-source, we're done
 		if myconf['dump-source']:
 			for line in source_head+source_conf+target_body:
