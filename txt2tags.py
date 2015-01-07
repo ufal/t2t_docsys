@@ -898,7 +898,7 @@ def getTags(config):
 		'deflistOpenCompact'   : '\\begin{compactdesc}',
 		'deflistCloseCompact'  : '\\end{compactdesc}'  ,
 		'deflistItem1Open'     : '\\item['	       ,
-		'deflistItem1Close'    : ']'		       ,
+		'deflistItem1Close'    : ']~\\\\'	       ,
 		'bar1'		       : '\\hrulefill{}'       ,
 		'bar2'		       : '\\rule{\linewidth}{1mm}',
 		'url'		       : '\\htmladdnormallink{\a}{\a}',
