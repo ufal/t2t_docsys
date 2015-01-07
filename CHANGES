@@ -6,3 +6,4 @@ Version 2.6.0-devel
   - txt: Do not use tabs to indicate heading level.
   - txt: Use = for top-level headings and - otherwise.
   - txt: Remove superfluous empty lines.
+  - html,pdf: Ignore =* in headings.

@@ -4455,7 +4455,7 @@ def doHeader(headers, config):
 	# If there isn't any other key reference on the same line, remove it
 	#TODO loop by template line > key
 	for key in head_data.keys():
-		if head_data.get(key): continue
+		if head_data.get(key) and (target == 'txt' or key == 'STYLE' or not re.search('^=*$', head_data.get(key))): continue
 		for line in template:
 			if line.count('%%(%s)s'%key):
 				sline = line.replace('%%(%s)s'%key, '')
