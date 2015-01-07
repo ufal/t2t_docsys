@@ -2,5 +2,6 @@ Version 2.6.0-devel
 -------------------
 - Initial public release.
 - Differences against txt2tags version 2.6:
+  - txt: Reflow paragraphs to 80 columns.
   - txt: Do not use tabs to indicate heading level.
   - txt: Use = for top-level headings and - otherwise.

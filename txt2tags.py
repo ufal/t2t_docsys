@@ -3769,6 +3769,39 @@ class BlockMaster:
 				Error("BlockMaster: Unknown HOLD item type: %s" % linetype)
 		return ret
 
+	# Milan Straka: Perform text reflow for txt TARGET to 80 columns.
+	def _reflow(self, what, indent = 0):
+		if TARGET != 'txt':
+			return what
+
+		tmp = []
+		for line in what:
+			linetype = type(line)
+			if linetype == type('') or linetype == type(u''):
+				if not line or not tmp or type(tmp[-1]) == type([]) or not tmp[-1]:
+					tmp.append(self._last_escapes(line).strip())
+				else:
+					tmp[-1] += " " + self._last_escapes(line).strip()
+			else:
+				tmp.append(line)
+		ret = []
+		for line in tmp:
+			if type(line) == type('') or type(line) == type(u''):
+				while len(line) > 80 - indent:
+					pos = line.rfind(" ", 0, 81 - indent)
+					if pos == -1: pos = line.find(" ", 80 - indent)
+					if pos == -1: pos = len(line)
+					ret.append(line[0:pos].rstrip())
+					line = line[pos+1:].lstrip()
+				ret.append(line)
+			else:
+				ret.append(line)
+		return ret
+
+	def _reflow_hold(self, indent = 0):
+		if self.HLD:
+			self.HLD[-1] = self._reflow(self.HLD[-1], indent)
+
 	def _remove_twoblanks(self, lastitem):
 		if len(lastitem) > 1 and lastitem[-2:] == ['','']:
 			return lastitem[:-2]
@@ -3828,6 +3861,7 @@ class BlockMaster:
 		result = []
 		open_ = TAGS['paragraphOpen']
 		close = TAGS['paragraphClose']
+		self._reflow_hold()
 		lines = self._get_escaped_hold()
 
 		# Blank line before?
@@ -3943,6 +3977,7 @@ class BlockMaster:
 		if open_: result.append(tagindent+open_)
 
 		# Get contents
+		self._reflow_hold(8 * self.depth)
 		for item in self.hold():
 			if type(item) == type([]):
 				result.extend(item)	   # subquotes
@@ -4038,6 +4073,11 @@ class BlockMaster:
 				itemopen = regex['x'].sub(n, itemopenorig)
 				del n
 
+			subindent = self.prop('indent') + ' ' * (2 if name == 'deflist' else len(itemopen))
+			if name == 'deflist':
+				item[1:] = self._reflow(item[1:], len(subindent))
+			else:
+				item = self._reflow(item, len(subindent))
 			# Tag it
 			item[0] = self._last_escapes(item[0])
 			if name == 'deflist':
@@ -4056,6 +4096,7 @@ class BlockMaster:
 					listbody.extend(line)
 				else:
 					line = self._last_escapes(line)
+					if TARGET == 'txt': line = subindent + line
 
 					# Blank lines turns to <p>
 					if not line and rules['parainsidelist']:
