@@ -3320,7 +3320,7 @@ class TitleMaster:
 				i = len(full_title.decode('utf-8'))
 			else:
 				i = len(full_title)
-			ret.append(regex['x'].sub('='*i, self.tag))
+			ret.append(regex['x'].sub(('=' if self.level == 1 else '-')*i, self.tag))
 		elif TARGET == 'art' and self.level == 1:
 			if CONF['slides'] :
 				AA_TITLE = tagged
