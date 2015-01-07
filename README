@@ -16,10 +16,10 @@ Usage
 - Include Makefile.include
 
 - Following functions are defined:
-  $(call t2t_docsys_txt,output,input,configs)
-  $(call t2t_docsys_html,output,input,configs)
-  $(call t2t_docsys_pdf,output,input,configs)
-  - Create document with specified output name from given input t2t file.
+  - $(call t2t_docsys_txt,output,input,configs)
+  - $(call t2t_docsys_html,output,input,configs)
+  - $(call t2t_docsys_pdf,output,input,configs)
+    Create document with specified output name from given input t2t file.
     Uses (possible multiple) given configurations. Currently there are:
     - manual: base configuration which also includes "^%manual% " lines
     - web: base configuration which also includes "^%web% " lines
@@ -27,11 +27,13 @@ Usage
     - html_addlevel: addon configuration which only add level to HTML headings
 
 - Following variables are defined:
-  t2t_docsys_output_wildcards
-  - Wildcards of files produced by t2t_docsys. There are quite a few because
+  - t2t_docsys_output_wildcards
+    Wildcards of files produced by t2t_docsys. There are quite a few because
     of calling pdflatex. Should be used by calling
       $(wildcard $(t2t_docsys_output_wildcards))
 
+  - t2t_docsys_version
+    Current T2T DocSys version.
 
 Markup
 ------

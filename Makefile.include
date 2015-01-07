@@ -1,3 +1,5 @@
+t2t_docsys_version := 2.6.0
+
 t2t_docsys_root := $(dir $(lastword $(MAKEFILE_LIST)))
 
 define t2t_docsys_txt
