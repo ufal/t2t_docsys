@@ -648,11 +648,11 @@ def getTags(config):
 	},
 
 	'txt': {
-		'title1'	       : '  \a'      ,
-		'title2'	       : '\t\a'      ,
-		'title3'	       : '\t\t\a'    ,
-		'title4'	       : '\t\t\t\a'  ,
-		'title5'	       : '\t\t\t\t\a',
+		'title1'	       : '\a'	     ,
+		'title2'	       : '\a'	     ,
+		'title3'	       : '\a'	     ,
+		'title4'	       : '\a'	     ,
+		'title5'	       : '\a'	     ,
 		'blockQuoteLine'       : '\t'	     ,
 		'listItemOpen'	       : '- '	     ,
 		'numlistItemOpen'      : '\a. '      ,
