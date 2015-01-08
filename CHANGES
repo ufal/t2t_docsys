@@ -2,6 +2,7 @@ Version 2.6.1-devel
 -------------------
 - Further differences against txt2tags version 2.6:
   - Remove spaces at end of line.
+  - Honour empty/nonempty line between para/list and para/verb.
 
 
 Version 2.6.0 [7 Jan 2015]

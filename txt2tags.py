@@ -666,6 +666,7 @@ def getTags(config):
 
 	'html': {
 		'paragraphOpen'        : '<P>'		  ,
+		'paragraphOpenAttachedAfter' : '<P STYLE="margin-bottom:0">' ,
 		'paragraphClose'       : '</P>'		  ,
 		'title1'	       : '~A~<H1>\a</H1>' ,
 		'title2'	       : '~A~<H2>\a</H2>' ,
@@ -674,6 +675,7 @@ def getTags(config):
 		'title5'	       : '~A~<H5>\a</H5>' ,
 		'anchor'	       : '<A NAME="\a"></A>\n',
 		'blockVerbOpen'        : '<PRE>'	  ,
+		'blockVerbOpenAttachedBefore' : '<PRE STYLE="margin-top:0">' ,
 		'blockVerbClose'       : '</PRE>'	  ,
 		'blockQuoteOpen'       : '<BLOCKQUOTE>'   ,
 		'blockQuoteClose'      : '</BLOCKQUOTE>'  ,
@@ -688,9 +690,11 @@ def getTags(config):
 		'fontStrikeOpen'       : '<S>'		  ,
 		'fontStrikeClose'      : '</S>'		  ,
 		'listOpen'	       : '<UL>'		  ,
+		'listOpenAttachedBefore' : '<UL STYLE="margin-top:0">' ,
 		'listClose'	       : '</UL>'	  ,
 		'listItemOpen'	       : '<LI>'		  ,
 		'numlistOpen'	       : '<OL>'		  ,
+		'numlistOpenAttachedBefore' : '<OL STYLE="margin-top:0">' ,
 		'numlistClose'	       : '</OL>'	  ,
 		'numlistItemOpen'      : '<LI>'		  ,
 		'deflistOpen'	       : '<DL>'		  ,
@@ -870,6 +874,7 @@ def getTags(config):
 		'numtitle3'	       : '~A~\\subsubsection{\a}' ,
 		'anchor'	       : '\\hypertarget{\a}{}\n'  ,
 		'blockVerbOpen'        : '\\begin{lstlisting}' ,
+		'blockVerbOpenAttachedBefore' : '\\vspace{-\\medskipamount}\\begin{lstlisting}' ,
 		'blockVerbClose'       : '\\end{lstlisting}'   ,
 		'blockQuoteOpen'       : '\\begin{quotation}'  ,
 		'blockQuoteClose'      : '\\end{quotation}'    ,
@@ -884,13 +889,17 @@ def getTags(config):
 		'fontStrikeOpen'       : '\\sout{'	       ,
 		'fontStrikeClose'      : '}'		       ,
 		'listOpen'	       : '\\begin{itemize}'    ,
+		'listOpenAttachedBefore' : '\\vspace{-2\\topsep}\\begin{itemize}' ,
 		'listClose'	       : '\\end{itemize}'      ,
 		'listOpenCompact'      : '\\begin{compactitem}',
+		'listOpenCompactAttachedBefore' : '\\vspace{-\parskip}\\begin{compactitem}' ,
 		'listCloseCompact'     : '\\end{compactitem}'  ,
 		'listItemOpen'	       : '\\item '	       ,
 		'numlistOpen'	       : '\\begin{enumerate}'  ,
+		'numlistOpenAttachedBefore' : '\\vspace{-2\\topsep}\\begin{enumerate}' ,
 		'numlistClose'	       : '\\end{enumerate}'    ,
 		'numlistOpenCompact'   : '\\begin{compactenum}',
+		'numlistOpenCompactAttachedBefore' : '\\vspace{-\parskip}\\begin{compactenum}' ,
 		'numlistCloseCompact'  : '\\end{compactenum}'  ,
 		'numlistItemOpen'      : '\\item '	       ,
 		'deflistOpen'	       : '\\begin{description}',
@@ -3695,14 +3704,18 @@ class BlockMaster:
 		if block not in self.allblocks:
 			Error("Invalid block '%s'"%block)
 
+                props = {}
 		# First, let's close other possible open blocks
 		while self.block() and block not in self.contains[self.block()]:
+			if self.block() == 'para' and (block.endswith('list') or block == 'verb'):
+				props['attached_before'] = True
+				self.propset('attached_after', True)
 			ret.extend(self.blockout())
 
 		# Now we can gladly add this new one
 		self.BLK.append(block)
 		self.HLD.append([])
-		self.PRP.append({})
+		self.PRP.append(props)
 		self.count += 1
 		if block == 'table': self.tableparser = TableMaster()
 		# Deeper and deeper
@@ -3810,6 +3823,9 @@ class BlockMaster:
 	def _should_add_blank_line(self, where, blockname):
 		"Validates the blanksaround* rules"
 
+                # Use attached_* props
+		if self.prop('attached_' + where): return False
+
 		# Nestable blocks: only mother blocks (level 1) are spaced
 		if blockname.endswith('list') and self.depth > 1:
 			return False
@@ -3860,6 +3876,7 @@ class BlockMaster:
 	def para(self):
 		result = []
 		open_ = TAGS['paragraphOpen']
+		if self.prop('attached_after') and TAGS.has_key('paragraphOpenAttachedAfter'): open_ = TAGS['paragraphOpenAttachedAfter']
 		close = TAGS['paragraphClose']
 		self._reflow_hold()
 		lines = self._get_escaped_hold()
@@ -3898,6 +3915,7 @@ class BlockMaster:
 		"Verbatim lines are not masked, so there's no need to unmask"
 		result = []
 		open_ = TAGS['blockVerbOpen']
+		if self.prop('attached_before') and TAGS.has_key('blockVerbOpenAttachedBefore'): open_ = TAGS['blockVerbOpenAttachedBefore']
 		close = TAGS['blockVerbClose']
 
 		# Blank line before?
@@ -4119,9 +4137,11 @@ class BlockMaster:
 
 		if not widelist and rules['compactlist']:
 			listopen = TAGS.get(name+'OpenCompact')
+			if self.prop('attached_before') and TAGS.has_key(name+'OpenCompactAttachedBefore'): listopen = TAGS.get(name+'OpenCompactAttachedBefore')
 			listclose = TAGS.get(name+'CloseCompact')
 		else:
 			listopen  = TAGS.get(name+'Open')
+			if self.prop('attached_before') and TAGS.has_key(name+'OpenAttachedBefore'): listopen = TAGS.get(name+'OpenAttachedBefore')
 			listclose = TAGS.get(name+'Close')
 
 		# Open list (not nestable lists are only opened at mother)
