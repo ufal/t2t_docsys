@@ -27,12 +27,12 @@ Usage
     - html_addlevel: addon configuration which only add level to HTML headings
 
 - Following variables are defined:
-  - t2t_docsys_output_wildcards
+  - T2T_DOCSYS_OUTPUT_WILDCARDS
     Wildcards of files produced by t2t_docsys. There are quite a few because
     of calling pdflatex. Should be used by calling
       $(wildcard $(t2t_docsys_output_wildcards))
 
-  - t2t_docsys_version
+  - T2T_DOCSYS_VERSION
     Current T2T DocSys version.
 
 Markup
