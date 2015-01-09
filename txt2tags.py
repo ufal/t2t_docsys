@@ -137,7 +137,7 @@ else:
 # first file and gui for the second. There is no --no-<action>.
 # --version and --help inside %!options are also odd
 #
-TARGETS  = 'html xhtml sgml dbk tex lout man mgp wiki gwiki doku pmw moin pm6 txt art adoc creole'.split()
+TARGETS  = 'html xhtml sgml dbk tex lout man mgp wiki gwiki doku pmw moin pm6 txt md art adoc creole'.split()
 TARGETS.sort()
 
 FLAGS	 = {'headers'	 :1 , 'enum-title' :0 , 'mask-email' :0 ,
@@ -177,6 +177,7 @@ TARGET_NAMES = {
   'moin'   : _('MoinMoin page'),
   'pm6'    : _('PageMaker document'),
   'txt'    : _('Plain Text'),
+  'md'     : _('GitHub Flavoured Markdown'),
   'art'    : _('ASCII Art text'),
   'adoc'   : _('AsciiDoc document'),
   'creole' : _('Creole 1.0 document')
@@ -297,6 +298,12 @@ Fake template to respect the general process.
 """,
 	'txt': """\
 %(HEADER1)s
+%(HEADER2)s
+%(HEADER3)s
+""",
+
+	'md': """\
+# %(HEADER1)s
 %(HEADER2)s
 %(HEADER3)s
 """,
@@ -662,6 +669,37 @@ def getTags(config):
 		'email'		       : '\a'	     ,
 		'emailMark'	       : '\a (\a)'   ,
 		'img'		       : '[\a]'      ,
+	},
+
+	'md': {
+		'title1'	       : '# \a',
+		'title2'	       : '## \a',
+		'title3'	       : '### \a',
+		'title4'	       : '#### \a',
+		'title5'	       : '##### \a',
+		'blockVerbOpen'        : '```',
+		'blockVerbClose'       : '```',
+		'blockQuoteLine'       : '> ',
+		'fontMonoOpen'	       : '`',
+		'fontMonoClose'        : '`',
+		'fontBoldOpen'	       : '__',
+		'fontBoldClose'        : '__',
+		'fontItalicOpen'       : '*',
+		'fontItalicClose'      : '*',
+		'fontStrikeOpen'       : '~~',
+		'fontStrikeClose'      : '~~',
+		'listItemOpen'	       : '- ',
+		'numlistItemOpen'      : '\a. ',
+		'bar1'		       : '-',
+		'url'		       : '\a',
+		'urlMark'	       : '[\a](\a)',
+		'email'		       : '\a',
+		'emailMark'	       : '[\a](mailto:\a)',
+		'img'		       : '![](\a)',
+		'tableRowOpen'	       : '| ',
+		'tableRowClose'        : ' |',
+		'tableCellSep'         : ' | ',
+		'tableTitleRowClose'   : ' |\n-----'
 	},
 
 	'html': {
@@ -1528,6 +1566,29 @@ def getRules(config):
 			'keeplistindent':1,
 			'barinsidequote':1,
 			'autotocwithbars':1,
+
+			'blanksaroundpara':1,
+			'blanksaroundverb':1,
+			'blanksaroundquote':1,
+			'blanksaroundlist':1,
+			'blanksaroundnumlist':1,
+			'blanksarounddeflist':1,
+			'blanksaroundtable':1,
+			'blanksaroundbar':1,
+			'blanksaroundtitle':1,
+			'blanksaroundnumtitle':1,
+		},
+		'md': {
+			'indentverbblock':1,
+			'linkable':1,
+			'labelbeforelink':1,
+			'imglinkable':1,
+			'spacedlistitem':1,
+			'parainsidelist':1,
+			'tableable':1,
+			'keeplistindent':1,
+			'keepquoteindent':1,
+			'barinsidequote':1,
 
 			'blanksaroundpara':1,
 			'blanksaroundverb':1,
