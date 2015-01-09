@@ -3846,21 +3846,35 @@ class BlockMaster:
 				Error("BlockMaster: Unknown HOLD item type: %s" % linetype)
 		return ret
 
-	# Milan Straka: Perform text reflow for txt TARGET to 80 columns.
+	# Milan Straka: Perform text reflow for txt TARGET to 80 columns
+	# and make two or more spaces at end of line denote line break.
 	def _reflow(self, what, indent = 0):
+		if TARGET == 'html' or TARGET == 'tex':
+			line_break = r'\\\\' if TARGET == 'tex' else '<br>'
+			ret = []
+			for line in what:
+				ret.append(re.sub(r'\s{2,}$', line_break, line) if (type(line) == type('') or type(line) == type(u'')) else line)
+			return ret
+
 		if TARGET != 'txt':
 			return what
 
 		tmp = []
+		was_line_break = False
 		for line in what:
 			linetype = type(line)
 			if linetype == type('') or linetype == type(u''):
-				if not line or not tmp or type(tmp[-1]) == type([]) or not tmp[-1]:
+				line_break = re.search(r'\s{2,}$', line)
+				if line_break: line = re.sub(r'\s{2,}$', '', line)
+				if not line or not tmp or type(tmp[-1]) == type([]) or not tmp[-1] or was_line_break:
 					tmp.append(self._last_escapes(line).strip())
 				else:
 					tmp[-1] += " " + self._last_escapes(line).strip()
+				was_line_break = line_break
 			else:
 				tmp.append(line)
+				was_line_break = False
+
 		ret = []
 		for line in tmp:
 			if type(line) == type('') or type(line) == type(u''):

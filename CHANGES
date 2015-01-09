@@ -1,5 +1,7 @@
 Version 2.6.3-devel
 -------------------
+- Further differences against txt2tags version 2.6:
+  - Two or more spaces at end of line denote line break.
 
 
 Version 2.6.2 [9 Jan 2015]
