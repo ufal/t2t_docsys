@@ -1,5 +1,5 @@
-Version 2.6.2-devel
--------------------
+Version 2.6.2 [9 Jan 2015]
+--------------------------
 - Use uppercase for Makefile variables.
 - Further differences against txt2tags version 2.6:
   - Add simple GitHub Flavoured Markdown support.
