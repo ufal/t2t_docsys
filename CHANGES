@@ -1,5 +1,5 @@
-Version 2.6.3-devel
--------------------
+Version 2.6.3 [10 Jan 2015]
+---------------------------
 - Document t2t_docsys using itself.
 - Further differences against txt2tags version 2.6:
   - Two or more spaces at end of line denote line break.
