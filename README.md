@@ -1,4 +1,5 @@
 # T2T DocSys
+[![Build Status](https://travis-ci.org/ufal/t2t_docsys.svg?branch=master)](https://travis-ci.org/ufal/t2t_docsys)
 
 T2T DocSys is a small documentation system capable of producing plain text,
 Markdown, HTML and PDF, in several versions (e.g. monolithic / page per section).
