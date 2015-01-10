@@ -1,15 +1,11 @@
 include ../Makefile.include
 
-all:
-	@echo "make [html | txt | md | pdf | manual]"
-
-html: readme.html
-txt: readme.txt
-md: readme.md
-pdf: readme.pdf
-manual: readme.txt readme.md
+.PHONY: all doc install
+all: doc
+doc: readme.txt readme_md.md
+install: all
 	cp readme.txt ../README
-	cp readme.md ../README.md
+	cp readme_md.md ../README.md
 
 %.html: %.t2t $(wildcard *.t2t)
 	$(call t2t_docsys_html,$@,$<,manual striplevel)
