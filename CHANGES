@@ -1,5 +1,6 @@
 Version 2.6.6-devel
 -------------------
+- Use lowercase version of utf-8 encoding name.
 
 
 Version 2.6.5 [12 Jan 2015]
