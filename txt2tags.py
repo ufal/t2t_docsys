@@ -3850,7 +3850,7 @@ class BlockMaster:
 			line_break = r'\\\\' if TARGET == 'tex' else '<br>'
 			ret = []
 			for line in what:
-				ret.append(re.sub(r'\s{2,}$', line_break, line) if is_string(line, string_type) else line)
+				ret.append(re.sub(r'\s{2,}$', line_break, line) if isinstance(line, string_type) else line)
 			return ret
 
 		if TARGET != 'txt':
