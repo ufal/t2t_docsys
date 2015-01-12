@@ -1,5 +1,4 @@
 T2T DocSys
 [![Build Status](https://travis-ci.org/ufal/t2t_docsys.svg?branch=master)](https://travis-ci.org/ufal/t2t_docsys)
 
-%!encoding: utf-8
 %!include: readme.t2t

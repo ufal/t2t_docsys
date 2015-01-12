@@ -1,5 +1,7 @@
 Version 2.6.4-devel
 -------------------
+- Further differences against txt2tags version 2.6:
+  - Make utf-8 encoding default.
 
 
 Version 2.6.3 [10 Jan 2015]

@@ -38,6 +38,7 @@ T2T DocSys repository http://github.com/ufal/t2t_docsys is hosted on GitHub.
 
 Standard txt2tags http://txt2tags.org/docs.html markup is supported, with
 several additions:
+- UTF-8 encoding is default.
 - Paragraphs are reflowed in plain text output.
 - There can be local links in `[ link #anchor ]` format in verbatim code, but
   they are retained only in HTML and PDF output.
