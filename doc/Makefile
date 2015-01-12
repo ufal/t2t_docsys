@@ -3,7 +3,7 @@ include ../Makefile.include
 .PHONY: all doc install
 all: doc
 doc: readme.txt readme_md.md
-install: all
+install: doc
 	cp readme.txt ../README
 	cp readme_md.md ../README.md
 
