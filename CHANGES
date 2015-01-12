@@ -1,5 +1,5 @@
-Version 2.6.5-devel
--------------------
+Version 2.6.5 [12 Jan 2015]
+---------------------------
 - Fix bug introduced in 2.6.4 in HTML and TeX generation.
 
 
