@@ -1,5 +1,5 @@
-Version 2.6.4-devel
--------------------
+Version 2.6.4 [12 Jan 2015]
+---------------------------
 - Further differences against txt2tags version 2.6:
   - Support python3.
   - Make utf-8 encoding default.
