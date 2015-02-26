@@ -1,5 +1,6 @@
 Version 2.6.7-devel
 -------------------
+- Fix bug in t2t_docsys_html_addlevel.conf.
 
 
 Version 2.6.6 [12 Jan 2015]
